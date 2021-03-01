@@ -109,66 +109,73 @@ public class Main {
     private void doControlBreak(){
         //need total, mean, min, max, median;
         ArrayList<Meal> allMeals = new ArrayList<>(cookbook.getMeals());
-        ArrayList<Meal> currentMealTypeSet = new ArrayList<>();
-
-        //int minCalories = firstMeal.getCalories();
-        //int maxCalories = firstMeal.getCalories();
-
-        //int mealTypeCount = 0;
-        //int totalCalories = 0;
-
-        //For last meal
-        //int index = 0;
-        //int length = allMeals.size();
-        //MealType currentMealType = allMeals.get(0).getMealType();
-
-        List<Integer> calories = allMeals.stream()
-                .map(meal -> meal.getCalories())
-                .collect(Collectors.toList());
-
-        List<MealType> calories2 = allMeals.stream()
-                .map(meal -> meal.getMealType())
-                .collect(Collectors.toList());
-
-        List<String> calories3 = allMeals.stream()
-                .map(meal -> meal.getItem())
-                .collect(Collectors.toList());
 
         //separate by mealtype and sort them low to high
+        //probably don't use this since it can't be resorted
         Stream<Meal> lunchStreamSorted = allMeals.stream().filter(meal -> meal.getMealType()==MealType.LUNCH)
                 .sorted(Comparator.comparingInt(Meal::getCalories));
 
-        Stream<Meal> breakfastStreamSorted = allMeals.stream().filter(meal -> meal.getMealType()==MealType.BREAKFAST)
-                .sorted(Comparator.comparingInt(Meal::getCalories));
-
-        Stream<Meal> dinnerStreamSorted = allMeals.stream().filter(meal -> meal.getMealType()==MealType.DINNER)
-                .sorted(Comparator.comparingInt(Meal::getCalories));
-
-        Stream<Meal> dessertStreamSorted = allMeals.stream().filter(meal -> meal.getMealType()==MealType.DESSERT)
-                .sorted(Comparator.comparingInt(Meal::getCalories));
 
         /**Min values**/
-        Optional<Meal> minBreakfast = breakfastStreamSorted.findFirst();
-        Optional<Meal> minLunch = lunchStreamSorted.findFirst();
-        Optional<Meal> minDinner = dinnerStreamSorted.findFirst();
-        Optional<Meal> minDessert = dessertStreamSorted.findFirst();
+        int minBreakfast = allMeals.stream()
+                .filter(meal -> meal.getMealType()==MealType.BREAKFAST)
+                .sorted(Comparator.comparingInt(Meal::getCalories))
+                .findFirst().get().getCalories();
+
+        int minLunch = allMeals.stream()
+                .filter(meal -> meal.getMealType()==MealType.LUNCH)
+                .sorted(Comparator.comparingInt(Meal::getCalories))
+                .findFirst().get().getCalories();
+
+        int minDinner = allMeals.stream()
+                .filter(meal -> meal.getMealType()==MealType.DINNER)
+                .sorted(Comparator.comparingInt(Meal::getCalories))
+                .findFirst().get().getCalories();
+
+        int minDessert = allMeals.stream()
+                .filter(meal -> meal.getMealType()==MealType.DESSERT)
+                .sorted(Comparator.comparingInt(Meal::getCalories))
+                .findFirst().get().getCalories();
+
 
         /**Max Values**/
+        Integer maxBreakfast = allMeals.stream()
+                .filter(meal -> meal.getMealType()==MealType.BREAKFAST)
+                .sorted(Comparator.comparingInt(Meal::getCalories))
+                .map(Meal::getCalories).max(Comparator.comparing(Integer::valueOf)).get();
 
+        Integer maxLunch = allMeals.stream()
+                .filter(meal -> meal.getMealType()==MealType.LUNCH)
+                .sorted(Comparator.comparingInt(Meal::getCalories))
+                .map(Meal::getCalories).max(Comparator.comparing(Integer::valueOf)).get();
+
+        Integer maxDinner = allMeals.stream()
+                .filter(meal -> meal.getMealType()==MealType.DINNER)
+                .sorted(Comparator.comparingInt(Meal::getCalories))
+                .map(Meal::getCalories).max(Comparator.comparing(Integer::valueOf)).get();
+
+        Integer maxDessert = allMeals.stream()
+                .filter(meal -> meal.getMealType()==MealType.DESSERT)
+                .sorted(Comparator.comparingInt(Meal::getCalories))
+                .map(Meal::getCalories).max(Comparator.comparing(Integer::valueOf)).get();
 
 
         /****Start printing****/
         System.out.println("******BREAKFAST******");
-        System.out.println("MIN: " + minBreakfast.get().getCalories());
+        System.out.println("MIN: " + minBreakfast);
+        System.out.println("MAX: " + maxBreakfast);
 
         System.out.println("******LUNCH******");
-        System.out.println("MIN: " + minLunch.get().getCalories());
+        System.out.println("MIN: " + minLunch);
+        System.out.println("MAX: " + maxLunch);
 
         System.out.println("******DINNER******");
-        System.out.println("MIN: " + minDinner.get().getCalories());
+        System.out.println("MIN: " + minDinner);
+        System.out.println("MAX: " + maxDinner);
 
         System.out.println("******DESSERT******");
-        System.out.println("MIN: " + minDessert.get().getCalories());
+        System.out.println("MIN: " + minDessert);
+        System.out.println("MAX: " + maxDessert);
 
 
 
